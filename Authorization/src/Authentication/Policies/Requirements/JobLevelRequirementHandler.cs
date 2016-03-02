@@ -19,10 +19,6 @@ namespace Authentication.Policies
             {
                 context.Succeed(requirement);
             }
-            else
-            {
-                context.Fail();
-            }
         }
     }
 }

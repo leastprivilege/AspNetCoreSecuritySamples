@@ -29,16 +29,19 @@ namespace Authentication
                 {
                     policy.RequireClaim("department", "sales");
                 });
+
                 options.AddPolicy("SalesSenior", policy =>
                 {
                     policy.RequireClaim("department", "sales");
                     policy.RequireClaim("status", "senior");
                 });
+
                 options.AddPolicy("DevInterns", policy =>
                 {
                     policy.RequireClaim("department", "development");
                     policy.RequireClaim("status", "intern");
                 });
+
                 options.AddPolicy("Over18", policy =>
                 {
                     policy.RequireDelegate((context, requirement) =>
@@ -47,10 +50,6 @@ namespace Authentication
                         if (int.Parse(age) >= 18)
                         {
                             context.Succeed(requirement);
-                        }
-                        else
-                        {
-                            context.Fail();
                         }
                     });
                 });

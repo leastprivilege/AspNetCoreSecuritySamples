@@ -18,14 +18,12 @@ namespace Authentication.Policies
             // user must be in sales
             if (!context.User.HasClaim("department", "sales"))
             {
-                context.Fail();
                 return;
             }
 
             // ...and responsible for customer region
             if (!context.User.HasClaim("region", resource.Region))
             {
-                context.Fail();
                 return;
             }
 
@@ -34,7 +32,6 @@ namespace Authentication.Policies
             {
                 if (!context.User.HasClaim("status", "senior"))
                 {
-                    context.Fail();
                     return;
                 }
             }
@@ -62,10 +59,6 @@ namespace Authentication.Policies
             if (result)
             {
                 context.Succeed(requirement);
-            }
-            else
-            {
-                context.Fail();
             }
         }
     }
