@@ -52,6 +52,7 @@ namespace AspNetCoreAuthentication
                 SignInScheme = "Cookies",
 
                 Authority = "https://demo.identityserver.io",
+                PostLogoutRedirectUri = "http://localhost:3308/",
                 ClientId = "hybrid",
                 ClientSecret = "secret",
                 ResponseType = "code id_token",
