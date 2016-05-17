@@ -2,11 +2,11 @@
 
 namespace AspNetCoreAuthentication.Policies
 {
-    public class StatusRequirementHandler : AuthorizationHandler<JobLevelRequirement>
+    public class JobLevelRequirementHandler : AuthorizationHandler<JobLevelRequirement>
     {
         private readonly IOrganizationService _service;
 
-        public StatusRequirementHandler(IOrganizationService service)
+        public JobLevelRequirementHandler(IOrganizationService service)
         {
             _service = service;
         }
