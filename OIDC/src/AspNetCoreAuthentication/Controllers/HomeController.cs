@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.Authentication;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AspNetCoreAuthentication.Controllers
 {
@@ -19,16 +20,16 @@ namespace AspNetCoreAuthentication.Controllers
         [Authorize]
         public async Task<IActionResult> Secure()
         {
-            ViewBag.IdentityToken = await HttpContext.Authentication.GetIdentityTokenAsync();
-            ViewBag.AccessToken = await HttpContext.Authentication.GetAccessTokenAsync();
-            
+            ViewBag.IdentityToken = await HttpContext.Authentication.GetTokenAsync("id_token");
+            ViewBag.AccessToken = await HttpContext.Authentication.GetTokenAsync("access_token");
+
             return View();
         }
 
         [Authorize]
         public async Task<IActionResult> CallApi()
         {
-            var accessToken = await HttpContext.Authentication.GetAccessTokenAsync();
+            var accessToken = await HttpContext.Authentication.GetTokenAsync("access_token");
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
@@ -36,25 +37,6 @@ namespace AspNetCoreAuthentication.Controllers
             ViewBag.Json = JArray.Parse(response).ToString();
 
             return View();
-        }
-    }
-
-    internal static class AuthenticateContextExtensions
-    {
-        public static async Task<string> GetIdentityTokenAsync(this AuthenticationManager manager)
-        {
-            var context = new AuthenticateContext("Cookies");
-            await manager.AuthenticateAsync(context);
-
-            return context.Properties[".Token.id_token"];
-        }
-
-        public static async Task<string> GetAccessTokenAsync(this AuthenticationManager manager)
-        {
-            var context = new AuthenticateContext("Cookies");
-            await manager.AuthenticateAsync(context);
-
-            return context.Properties[".Token.access_token"];
         }
     }
 }
