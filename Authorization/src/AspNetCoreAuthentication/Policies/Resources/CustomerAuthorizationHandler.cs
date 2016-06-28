@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
+using System.Threading.Tasks;
 
 namespace AspNetCoreAuthentication.Policies
 {
@@ -12,18 +13,20 @@ namespace AspNetCoreAuthentication.Policies
             _permissions = permissions;
         }
 
-        protected override void Handle(AuthorizationContext context, OperationAuthorizationRequirement requirement, Customer resource)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Customer resource)
         {
+            var nop = Task.CompletedTask;
+
             // user must be in sales
             if (!context.User.HasClaim("department", "sales"))
             {
-                return;
+                return nop;
             }
 
             // ...and responsible for customer region
             if (!context.User.HasClaim("region", resource.Region))
             {
-                return;
+                return nop;
             }
 
             // if customer is fortune 500 - sales rep must be senior
@@ -31,24 +34,24 @@ namespace AspNetCoreAuthentication.Policies
             {
                 if (!context.User.HasClaim("status", "senior"))
                 {
-                    return;
+                    return nop;
                 }
             }
 
             if (requirement.Name == "GiveDiscount")
             {
                 HandleDiscountOperation(context, requirement, resource);
-                return;
+                return nop;
             }
 
             context.Succeed(requirement);
+            return nop;
         }
 
-        private void HandleDiscountOperation(AuthorizationContext context, OperationAuthorizationRequirement requirement, Customer resource)
+        private void HandleDiscountOperation(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Customer resource)
         {
             var discountOperation = requirement as DiscountOperationAuthorizationRequirement;
             var salesRep = context.User.FindFirst("sub").Value;
-
 
             var result = _permissions.IsDiscountAllowed(
                 salesRep,

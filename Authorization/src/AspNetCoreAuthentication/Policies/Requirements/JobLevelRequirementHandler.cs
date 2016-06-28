@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspNetCoreAuthentication.Policies
 {
@@ -11,7 +13,7 @@ namespace AspNetCoreAuthentication.Policies
             _service = service;
         }
         
-        protected override void Handle(AuthorizationContext context, JobLevelRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, JobLevelRequirement requirement)
         {
             var currentLevel = _service.GetJobLevel(context.User);
 
@@ -19,6 +21,8 @@ namespace AspNetCoreAuthentication.Policies
             {
                 context.Succeed(requirement);
             }
+
+            return Task.FromResult(0);
         }
     }
 }
