@@ -24,8 +24,8 @@ namespace AspNetCoreAuthentication
             // never persist key store to local directory, just for demo purposes
             services.AddDataProtection()
                 .SetApplicationName("DataProtectionDemo")
+                .ProtectKeysWithDpapi()
                 .PersistKeysToFileSystem(new DirectoryInfo(_env.ContentRootPath));
-                //.ProtectKeysWithDpapi();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
