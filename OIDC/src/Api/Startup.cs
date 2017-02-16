@@ -21,7 +21,7 @@ namespace Api
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
                 Authority = "https://demo.identityserver.io",
-                Audience = "https://demo.identityserver.io/resources",
+                Audience = "api",
 
                 AutomaticAuthenticate = true,
 

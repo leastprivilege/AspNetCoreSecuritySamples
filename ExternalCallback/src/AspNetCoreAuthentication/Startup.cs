@@ -20,23 +20,25 @@ namespace AspNetCoreAuthentication
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-            loggerFactory.AddDebug();
-
             app.UseDeveloperExceptionPage();
+
             app.UseStaticFiles();
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationScheme = "Cookies",
+                LoginPath = new PathString("/account/login"),
+
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
-
-                LoginPath = new PathString("/account/login")
             });
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationScheme = "Temp",
+
+                AutomaticAuthenticate = false,
+                AutomaticChallenge = false
             });
 
             app.UseGoogleAuthentication(new GoogleOptions

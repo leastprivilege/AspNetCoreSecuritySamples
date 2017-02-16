@@ -20,9 +20,8 @@ namespace AspNetCoreAuthentication
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-            loggerFactory.AddDebug();
-
             app.UseDeveloperExceptionPage();
+
             app.UseStaticFiles();
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions

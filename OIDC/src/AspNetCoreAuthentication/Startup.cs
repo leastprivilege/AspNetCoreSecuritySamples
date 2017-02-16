@@ -18,9 +18,8 @@ namespace AspNetCoreAuthentication
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             loggerFactory.AddConsole();
-            loggerFactory.AddDebug();
-
             app.UseDeveloperExceptionPage();
+
             app.UseStaticFiles();
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
@@ -35,10 +34,12 @@ namespace AspNetCoreAuthentication
                 SignInScheme = "Cookies",
 
                 Authority = "https://demo.identityserver.io",
-                PostLogoutRedirectUri = "http://localhost:3308/",
-                ClientId = "hybrid",
+
+                ClientId = "server.hybrid",
                 ClientSecret = "secret",
                 ResponseType = "code id_token",
+                Scope = { "openid", "profile", "api" },
+
                 GetClaimsFromUserInfoEndpoint = true,
                 SaveTokens = true
             });

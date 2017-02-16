@@ -17,14 +17,14 @@ namespace AspNetCoreAuthentication
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            // only allow authenticated users
-            var defaultPolicy = new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build();
-
-            services.AddMvc(setup =>
+            services.AddMvc(options =>
             {
-                setup.Filters.Add(new AuthorizeFilter(defaultPolicy));
+                // only allow authenticated users
+                var defaultPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(defaultPolicy));
             });
 
             services.AddAuthorization(options =>
@@ -66,9 +66,8 @@ namespace AspNetCoreAuthentication
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-            loggerFactory.AddDebug();
-
             app.UseDeveloperExceptionPage();
+
             app.UseStaticFiles();
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
