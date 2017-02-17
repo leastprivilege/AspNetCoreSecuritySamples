@@ -22,8 +22,10 @@ bld/
 [Bb]in/
 [Oo]bj/
 
-# Visual Studo 2015 cache/options directory
+# Visual Studio 2015 cache/options directory
 .vs/
+project.lock.json
+nuget.exe
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -129,7 +131,7 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-# TODO: Comment the next line if you want to checkin your web deploy settings 
+# TODO: Comment the next line if you want to checkin your web deploy settings
 # but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
@@ -158,7 +160,6 @@ ClientBin/
 *~
 *.dbmdl
 *.dbproj.schemaview
-*.pfx
 *.publishsettings
 node_modules/
 bower_components/
@@ -194,3 +195,13 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+docs/_build/
+
+# Cake Build Related
+tools/Cake/
+tools/packages.config.md5sum
+.idea
+
+# Visual Studio Code workspace options
+.vscode
+identityserver4_log.txt
