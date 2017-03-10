@@ -9,11 +9,13 @@ namespace AspNetCoreAuthentication
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
+        public IHostingEnvironment Environment { get; }
 
-        public Startup(IHostingEnvironment env)
+        public Startup(ILoggerFactory loggerFactory, IHostingEnvironment env)
         {
-            _env = env;
+            Environment = env;
+
+            loggerFactory.AddConsole();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -24,12 +26,11 @@ namespace AspNetCoreAuthentication
             services.AddDataProtection()
                 .SetApplicationName("DataProtectionDemo")
                 .ProtectKeysWithDpapi()
-                .PersistKeysToFileSystem(new DirectoryInfo(_env.ContentRootPath));
+                .PersistKeysToFileSystem(new DirectoryInfo(Environment.ContentRootPath));
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole();
             app.UseDeveloperExceptionPage();
 
             app.UseStaticFiles();

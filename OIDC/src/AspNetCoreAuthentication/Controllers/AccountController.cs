@@ -1,14 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreAuthentication.Controllers
 {
     public class AccountController : Controller
     {
-        public async Task Logout()
+        public IActionResult Login(string returnUrl = null)
         {
-            await HttpContext.Authentication.SignOutAsync("Cookies");
-            await HttpContext.Authentication.SignOutAsync("oidc");
+            if (!Url.IsLocalUrl(returnUrl)) returnUrl = "/";
+            var props = new AuthenticationProperties { RedirectUri = returnUrl };
+
+            return Challenge(props, "oidc");
+        }
+
+        public IActionResult Logout()
+        {
+            return SignOut("Cookies", "oidc");
         }
     }
 }

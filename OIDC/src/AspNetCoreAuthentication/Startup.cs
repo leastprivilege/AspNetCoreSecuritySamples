@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,16 +8,20 @@ namespace AspNetCoreAuthentication
 {
     public class Startup
     {
+        public Startup(ILoggerFactory loggerFactory)
+        {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            loggerFactory.AddConsole();
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            loggerFactory.AddConsole();
             app.UseDeveloperExceptionPage();
 
             app.UseStaticFiles();
@@ -25,13 +29,18 @@ namespace AspNetCoreAuthentication
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationScheme = "Cookies",
-                AutomaticAuthenticate = true
+
+                LoginPath = new PathString("/account/login"),
+
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
             });
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
             {
                 AuthenticationScheme = "oidc",
                 SignInScheme = "Cookies",
+                AutomaticChallenge = false,
 
                 Authority = "https://demo.identityserver.io",
 

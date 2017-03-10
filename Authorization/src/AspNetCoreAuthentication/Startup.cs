@@ -1,7 +1,6 @@
 ﻿using AspNetCoreAuthentication.Policies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +14,11 @@ namespace AspNetCoreAuthentication
 {
     public class Startup
     {
+        public Startup(ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole();
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options =>
@@ -63,9 +67,8 @@ namespace AspNetCoreAuthentication
             services.AddTransient<IOrganizationService, OrganizationService>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
-            loggerFactory.AddConsole();
             app.UseDeveloperExceptionPage();
 
             app.UseStaticFiles();
