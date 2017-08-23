@@ -1,0 +1,64 @@
+﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+
+namespace AspNetCoreSecurity
+{
+    public class Startup
+    {
+        public Startup()
+        {
+            // lame
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
+
+            services.AddAuthentication("Cookies")
+                .AddCookie("Cookies", options =>
+                {
+                    options.LoginPath = "/account/login";
+                    options.AccessDeniedPath = "/account/denied";
+                })
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.SignInScheme = "Cookies";
+
+                    options.Authority = "https://demo.identityserver.io";
+                    options.ClientId = "server.hybrid";
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code id_token";
+
+                    options.SaveTokens = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
+
+                    options.Scope.Clear();
+                    options.Scope.Add("openid");
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+                    options.Scope.Add("offline_access");
+                    options.Scope.Add("api");
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = "name", 
+                        RoleClaimType = "role"
+                    };
+                });
+        }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseDeveloperExceptionPage();
+
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
+            app.UseMvcWithDefaultRoute();
+        }
+    }
+}
