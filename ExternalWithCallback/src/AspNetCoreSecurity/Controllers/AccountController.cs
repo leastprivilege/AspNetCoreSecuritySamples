@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Collections.Generic;
@@ -51,17 +54,17 @@ namespace AspNetCoreSecurity.Controllers
 
         public IActionResult Google(string returnUrl = null)
         {
-            if (!Url.IsLocalUrl(returnUrl))
-            {
-                returnUrl = "/";
-            }
+            if (!Url.IsLocalUrl(returnUrl)) returnUrl = "/";
 
             var props = new AuthenticationProperties
             {
-                RedirectUri = "/account/callback"
+                RedirectUri = "/account/callback",
+                Items =
+                {
+                    { "returnUrl", returnUrl }
+                }
             };
-            props.Items.Add("returnUrl", returnUrl);
-
+            
             return Challenge(props, "Google");
         }
 
@@ -74,7 +77,7 @@ namespace AspNetCoreSecurity.Controllers
             var extUserId = extUser.FindFirst(ClaimTypes.NameIdentifier);
             var issuer = extUserId.Issuer;
 
-            // provisioning logic
+            // provisioning logic happens here...
 
             var claims = new List<Claim>
             {

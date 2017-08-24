@@ -1,4 +1,8 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +53,8 @@ namespace AspNetCoreSecurity
                         RoleClaimType = "role"
                     };
                 });
+
+            services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
