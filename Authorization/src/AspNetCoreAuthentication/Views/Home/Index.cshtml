@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>ASP.NET Core Authorization</h1>
+
+<dl>
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+</dl>
+
+<a href="home/index2">Switch to UI authorization rendering version</a>
+
+<h3>Policies</h3>
+
+<div>
+    <a href="test/noAccess">No access</a>
+</div>
+
+<div>
+    <a href="test/salesOnly">Sales only</a>
+</div>
+
+<div>
+    <a href="test/salesSenior">Sales seniors only</a>
+</div>
+
+<div>
+    <a href="test/salesSeniorImperative">Sales seniors only (imperative)</a>
+</div>
+
+<div>
+    <a href="test/devInterns">Dev interns only</a>
+</div>
+
+<h3>Customer resource</h3>
+
+<div>
+    <a href="customer/manage">Manage</a>
+</div>
+
+<div>
+    <a href="customer/discount?amount=5">Give discount (5%)</a>
+</div>
+
+<div>
+    <a href="customer/discount?amount=15">Give discount (15%)</a>
+</div>
