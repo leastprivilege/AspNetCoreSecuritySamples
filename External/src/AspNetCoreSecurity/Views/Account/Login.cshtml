@@ -25,7 +25,10 @@
                 </div>
             </form>
 
-            <a href="~/account/google?returnUrl=@ViewData["ReturnUrl"]">Sign in with Google</a>
+            <a asp-action="Google"
+               asp-route-returnUrl="@ViewData["ReturnUrl"]">
+                Sign-in with Google
+            </a>
         </section>
     </div>
 </div>
