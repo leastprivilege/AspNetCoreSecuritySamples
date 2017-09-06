@@ -1,0 +1,21 @@
+﻿<!--Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script src="oidc-client.js"></script>
+    <script>
+        new Oidc.UserManager().signinRedirectCallback().then(function (user) {
+            console.log(user);
+            window.location = "index.html";
+        }).catch(function (err) {
+            console.log(err);
+        });
+    </script>
+</body>
+</html>
