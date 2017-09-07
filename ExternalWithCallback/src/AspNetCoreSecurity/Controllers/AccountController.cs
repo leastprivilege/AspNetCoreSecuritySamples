@@ -20,6 +20,7 @@ namespace AspNetCoreSecurity.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string userName, string password, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
