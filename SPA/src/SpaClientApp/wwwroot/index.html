@@ -77,7 +77,7 @@ Licensed under the Apache License, Version 2.0. See LICENSE in the project root 
             mgr.getUser().then(function (user) {
 
                 var xhr = new XMLHttpRequest();
-                xhr.open("GET", "https://api.identityserver.io/identity");
+                xhr.open("GET", "https://demo.identityserver.io/api/test");
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         log(xhr.status, JSON.parse(xhr.responseText));
