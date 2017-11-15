@@ -22,10 +22,13 @@ namespace AspNetCoreSecurity
         {
             services.AddMvc();
 
-            services.AddAuthentication("Cookies")
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
                 .AddCookie("Cookies", options =>
                 {
-                    options.LoginPath = "/account/login";
                     options.AccessDeniedPath = "/account/denied";
                 })
                 .AddOpenIdConnect("oidc", options =>
@@ -46,6 +49,9 @@ namespace AspNetCoreSecurity
                     options.Scope.Add("email");
                     options.Scope.Add("offline_access");
                     options.Scope.Add("api");
+
+                    options.ClaimActions.Remove("amr");
+                    options.ClaimActions.MapUniqueJsonKey("website", "website");
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
