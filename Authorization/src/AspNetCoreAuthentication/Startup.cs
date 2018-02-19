@@ -1,20 +1,14 @@
 ﻿using AspNetCoreAuthentication.Policies;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace AspNetCoreAuthentication
 {
     public class Startup
     {
-        public Startup(ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddConsole();
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options =>

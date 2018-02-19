@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System.IO;
 
 namespace AspNetCoreAuthentication
@@ -19,7 +18,7 @@ namespace AspNetCoreAuthentication
                 .PersistKeysToFileSystem(new DirectoryInfo(Directory.GetCurrentDirectory()));
         }
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseDeveloperExceptionPage();
 
