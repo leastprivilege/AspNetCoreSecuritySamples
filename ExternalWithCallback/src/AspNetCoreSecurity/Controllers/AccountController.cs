@@ -59,7 +59,7 @@ namespace AspNetCoreSecurity.Controllers
 
             var props = new AuthenticationProperties
             {
-                RedirectUri = "/account/callback",
+                RedirectUri = Url.Action(nameof(Callback)),
                 Items =
                 {
                     { "returnUrl", returnUrl }
