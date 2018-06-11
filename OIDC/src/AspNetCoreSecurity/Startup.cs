@@ -49,9 +49,8 @@ namespace AspNetCoreSecurity
                     options.Scope.Add("offline_access");
                     options.Scope.Add("api");
 
-                    options.ClaimActions.Remove("amr");
-                    options.ClaimActions.MapUniqueJsonKey("website", "website");
-
+                    options.ClaimActions.MapAllExcept("iss", "exp", "nbf", "iat", "nonce", "aud", "c_hash", "auth_time");
+                    
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         NameClaimType = "name", 
