@@ -74,13 +74,24 @@ namespace AspNetCoreSecurity
                     options.Scope.Add("offline_access");
                     options.Scope.Add("api");
 
-                    options.ClaimActions.Remove("amr");
-                    options.ClaimActions.MapUniqueJsonKey("website", "website");
+                    options.ClaimActions.MapAllExcept("iss", "nbf", "exp", "aud", "nonce", "iat", "c_hash");
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         NameClaimType = "name",
                         RoleClaimType = "role"
+                    };
+
+                    options.ForwardDefaultSelector = ctx =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api"))
+                        {
+                            return "jwt";
+                        }
+                        else
+                        {
+                            return "oidc";
+                        }
                     };
                 });
 
