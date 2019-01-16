@@ -12,14 +12,17 @@ namespace Client
     {
         static async Task Main(string[] args)
         {
-            var disco = await DiscoveryClient.GetAsync("https://demo.identityserver.io");
+            var protocolClient = new HttpClient();
+
+            var disco = await protocolClient.GetDiscoveryDocumentAsync("https://demo.identityserver.io");
             if (disco.IsError) throw new Exception(disco.Error);
 
-            var tokenClient = new TokenClient(
-                disco.TokenEndpoint,
-                "client",
-                "secret");
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync();
+            var tokenResponse = await protocolClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+                ClientId = "client",
+                ClientSecret = "secret"
+            });
 
             var apiClient = new HttpClient();
             apiClient.SetBearerToken(tokenResponse.AccessToken);

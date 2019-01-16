@@ -21,8 +21,6 @@ namespace AspNetCoreSecurity
                 })
                 .AddGoogle("Google", options =>
                 {
-                    options.SignInScheme = "Cookies";
-
                     options.ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com";
                     options.ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo";
                 });

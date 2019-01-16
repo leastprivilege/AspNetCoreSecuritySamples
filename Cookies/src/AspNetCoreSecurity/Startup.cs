@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AspNetCoreSecurity
@@ -18,6 +19,9 @@ namespace AspNetCoreSecurity
                 {
                     options.LoginPath = "/account/login";
                     options.AccessDeniedPath = "/account/denied";
+
+                    options.Cookie.Name = "demo";
+                    options.Cookie.SameSite = SameSiteMode.Strict;
                 });
 
             // claims transformation
