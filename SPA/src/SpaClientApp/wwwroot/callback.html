@@ -10,7 +10,8 @@ Licensed under the Apache License, Version 2.0. See LICENSE in the project root 
 <body>
     <script src="oidc-client.js"></script>
     <script>
-        new Oidc.UserManager().signinRedirectCallback().then(function (user) {
+        var mgr = new Oidc.UserManager({ loadUserInfo: true, filterProtocolClaims: true, response_mode: "query" });
+        mgr.signinRedirectCallback().then(function (user) {
             console.log(user);
             window.location = "index.html";
         }).catch(function (err) {
