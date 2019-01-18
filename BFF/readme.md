@@ -1,4 +1,4 @@
-This sample shows a possible approach securing a SPA using
+This sample shows a possible approach for securing a SPA using
 
 * a server-side backend for user authentication and session management
 * SameSite cookies
