@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <!--<button id="cookie">Show cookie content</button>-->
+        <button id="front">Call front-end API</button>
+        <button id="back">Call back-end API</button>
+        <button id="logout">Logout</button>
+    </div>
+    
+    <div>
+        <pre id="out"></pre>
+    </div>
+
+    <script>
+        document.getElementById("front").addEventListener("click", callFrontEndApi);
+        document.getElementById("back").addEventListener("click", callBackEndApi);
+        document.getElementById("logout").addEventListener("click", logout);
+
+        function callFrontEndApi() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "user/info");
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    log(xhr.status, JSON.parse(xhr.responseText));
+                }
+                else {
+                    log("Error: " + xhr.status);
+                }
+            }
+
+            xhr.send();
+        }
+
+        function callBackEndApi() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "api/test/identity");
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    log(xhr.status, JSON.parse(xhr.responseText));
+                }
+                else {
+                    log("Error: " + xhr.status);
+                }
+            }
+
+            xhr.send();
+        }
+
+        function logout() {
+            window.location = "user/logout";
+        }
+
+        function log() {
+            document.getElementById('out').innerText = '';
+
+            Array.prototype.forEach.call(arguments, function (msg) {
+                if (msg instanceof Error) {
+                    msg = "Error: " + msg.message;
+                }
+                else if (typeof msg !== 'string') {
+                    msg = JSON.stringify(msg, null, 2);
+                }
+                document.getElementById('out').innerHTML += msg + '\r\n';
+            });
+        }
+
+    </script>
+
+</body>
+</html>
