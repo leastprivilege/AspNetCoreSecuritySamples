@@ -86,7 +86,7 @@ namespace Host
                     var forwardContext = context.ForwardTo("http://localhost:5001");
 
                     var token = await context.GetTokenAsync("access_token");
-                    forwardContext.UpstreamRequest.Headers.Add("Authorization", "Bearer " + token);
+                    forwardContext.UpstreamRequest.SetToken(token);
 
                     return await forwardContext.Execute();
                 });
