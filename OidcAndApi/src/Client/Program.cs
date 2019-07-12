@@ -27,7 +27,7 @@ namespace Client
             var apiClient = new HttpClient();
             apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-            Console.WriteLine(await apiClient.GetStringAsync("http://localhost:3308/test"));
+            Console.WriteLine(await apiClient.GetStringAsync("http://localhost:3308/api/test"));
         }
     }
 }
