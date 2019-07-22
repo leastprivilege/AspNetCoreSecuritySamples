@@ -1,4 +1,5 @@
 ﻿using IdentityModel.AspNetCore;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +22,8 @@ namespace Host
         {
             services.AddProxy();
 
+            services.AddTokenManagement();
+
             services.AddMvcCore()
                 .AddJsonFormatters()
                 .AddAuthorization();
@@ -35,7 +38,6 @@ namespace Host
                 options.Cookie.Name = "bff";
                 options.Cookie.SameSite = SameSiteMode.Strict;
             })
-            .AddAutomaticTokenManagement()
             .AddOpenIdConnect("oidc", options =>
             {
                 options.Authority = "https://demo.identityserver.io";
@@ -85,10 +87,10 @@ namespace Host
                 {
                     var forwardContext = context.ForwardTo("http://localhost:5001");
 
-                    var token = await context.GetTokenAsync("access_token");
-                    forwardContext.UpstreamRequest.SetToken(token);
+                    var token = await context.GetAccessTokenAsync();
+                    forwardContext.UpstreamRequest.SetBearerToken(token);
 
-                    return await forwardContext.Execute();
+                    return await forwardContext.Send();
                 });
             });
 

@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityModel" Version="3.10.5" />
+    <PackageReference Include="IdentityModel.AspNetCore" Version="1.0.0-preview.1.13" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="ProxyKit" Version="1.0.0" />
+    <PackageReference Include="ProxyKit" Version="2.1.2" />
   </ItemGroup>
 
 </Project>
