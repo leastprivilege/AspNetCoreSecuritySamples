@@ -1,0 +1,16 @@
+<Project>
+
+  <PropertyGroup>
+    <AspNetVersion>3.0.0-preview9.19424.4</AspNetVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Update="IdentityModel" Version="4.0.0" />
+
+    <PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.5.0" />
+
+    <PackageReference Update="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="$(AspNetVersion)" />
+    <PackageReference Update="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="$(AspNetVersion)" />
+  </ItemGroup>
+
+</Project>
