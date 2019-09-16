@@ -21,6 +21,9 @@ namespace AspNetCoreSecurity
                 .AddCookie("cookie", options =>
                 {
                     options.Cookie.Name = "demo";
+
+                    options.LoginPath = "/account/login";
+                    options.AccessDeniedPath = "/account/accessdenied";
                 })
                 .AddCookie("external", options =>
                 {

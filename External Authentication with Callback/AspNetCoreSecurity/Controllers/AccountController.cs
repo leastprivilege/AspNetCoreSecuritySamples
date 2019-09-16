@@ -105,10 +105,7 @@ namespace AspNetCoreSecurity.Controllers
             return Redirect(result.Properties.Items["uru"]);
         }
 
-        public IActionResult Denied()
-        {
-            return View();
-        }
+        public IActionResult AccessDenied() => View();
 
         public async Task<IActionResult> Logout()
         {

@@ -39,21 +39,9 @@ namespace AspNetCoreSecurity.Controllers
 
                 await HttpContext.SignInAsync(p);
 
-                if (Url.IsLocalUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
-                else
-                {
-                    return Redirect("/");
-                }
+                return LocalRedirect(returnUrl);
             }
 
-            return View();
-        }
-
-        public IActionResult Denied()
-        {
             return View();
         }
 
@@ -62,5 +50,7 @@ namespace AspNetCoreSecurity.Controllers
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
+
+        public IActionResult AccessDenied() => View();
     }
 }
