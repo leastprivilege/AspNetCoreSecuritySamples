@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{67606815-81F3-46C6-A8A3-CFF4AD207E82}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaClientApp", "src\SpaClientApp\SpaClientApp.csproj", "{1CA0D6F0-1FB3-468A-A697-EBB9DFAC67AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CA0D6F0-1FB3-468A-A697-EBB9DFAC67AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CA0D6F0-1FB3-468A-A697-EBB9DFAC67AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CA0D6F0-1FB3-468A-A697-EBB9DFAC67AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CA0D6F0-1FB3-468A-A697-EBB9DFAC67AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1CA0D6F0-1FB3-468A-A697-EBB9DFAC67AE} = {67606815-81F3-46C6-A8A3-CFF4AD207E82}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E85D4F24-B5C9-46BB-98BB-6D3AAAB7A9E1}
+	EndGlobalSection
+EndGlobal
