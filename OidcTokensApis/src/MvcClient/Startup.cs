@@ -65,7 +65,7 @@ namespace MvcCode
                     };
                 });
 
-            // add automatic token management
+            // this adds all the plumbing to do background refreshing of access tokens
             services.AddAccessTokenManagement()
                 .ConfigureBackchannelHttpClient()
                 .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
@@ -75,7 +75,7 @@ namespace MvcCode
                     TimeSpan.FromSeconds(3)
                 }));
 
-            // add HTTP client to call protected services
+            // this adds a named client to the factory that uses the automatic token management
             services.AddAccessTokenClient("client", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44311");
