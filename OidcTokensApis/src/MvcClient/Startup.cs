@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Polly;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -66,10 +67,13 @@ namespace MvcCode
 
             // add automatic token management
             services.AddTokenManagement()
-                .ConfigureBackchannelHttpClient(client =>
+                .ConfigureBackchannelHttpClient()
+                .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
                 {
-                    client.Timeout = TimeSpan.FromSeconds(30);
-                });
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromSeconds(3)
+                }));
 
             // add HTTP client to call protected services
             services.AddApiClient("client", client =>
