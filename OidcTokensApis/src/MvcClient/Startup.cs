@@ -72,7 +72,10 @@ namespace MvcCode
                 });
 
             // add HTTP client to call protected services
-            services.AddApiClient("client");
+            services.AddApiClient("client", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44311");
+            });
         }
 
         public void Configure(IApplicationBuilder app)

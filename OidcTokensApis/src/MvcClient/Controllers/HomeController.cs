@@ -26,7 +26,7 @@ namespace MvcCode.Controllers
         {
             var client = _httpClientFactory.CreateClient("client");
 
-            var response = await client.GetStringAsync("https://localhost:44311/test");
+            var response = await client.GetStringAsync("test");
             ViewBag.Json = JArray.Parse(response).ToString();
 
             return View();
