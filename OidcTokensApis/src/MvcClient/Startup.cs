@@ -66,7 +66,7 @@ namespace MvcCode
                 });
 
             // add automatic token management
-            services.AddTokenManagement()
+            services.AddAccessTokenManagement()
                 .ConfigureBackchannelHttpClient()
                 .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
                 {
@@ -76,7 +76,7 @@ namespace MvcCode
                 }));
 
             // add HTTP client to call protected services
-            services.AddApiClient("client", client =>
+            services.AddAccessTokenClient("client", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44311");
             });
