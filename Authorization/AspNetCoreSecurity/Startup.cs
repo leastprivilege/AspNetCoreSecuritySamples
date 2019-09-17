@@ -44,7 +44,6 @@ namespace AspNetCoreSecurity
 
             // register resource authorization handlers
             services.AddTransient<IAuthorizationHandler, CustomerAuthorizationHandler>();
-            services.AddTransient<IAuthorizationHandler, ProductAuthorizationHandler>();
 
             // register data access services
             services.AddTransient<IPermissionService, PermissionService>();
