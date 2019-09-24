@@ -21,8 +21,7 @@ namespace Host
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddProxy();
-
-            services.AddTokenManagement();
+            services.AddAccessTokenManagement();
 
             services.AddControllers();
 

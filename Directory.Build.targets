@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <AspNetVersion>3.0.0-preview9.19424.4</AspNetVersion>
+    <AspNetVersion>3.0.0</AspNetVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +11,9 @@
 
     <PackageReference Update="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="$(AspNetVersion)" />
     <PackageReference Update="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="$(AspNetVersion)" />
+    <PackageReference Update="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspNetVersion)" />
+
+    <PackageReference Update="Microsoft.Extensions.Http.Polly" Version="$(AspNetVersion)" />
   </ItemGroup>
 
 </Project>
