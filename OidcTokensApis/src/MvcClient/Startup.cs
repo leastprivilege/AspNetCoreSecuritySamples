@@ -14,10 +14,8 @@ namespace MvcCode
         {
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
-            // add MVC
             services.AddControllersWithViews();
 
-            // add cookie-based session management with OpenID Connect authentication
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "cookie";
@@ -25,22 +23,19 @@ namespace MvcCode
             })
                 .AddCookie("cookie", options =>
                 {
-                    options.Cookie.Name = "mvcclient";
-
-                    options.ExpireTimeSpan = TimeSpan.FromHours(8);
-                    options.SlidingExpiration = false;
+                    options.Cookie.Name = "mvccode";
 
                     options.Events.OnSigningOut = async e =>
                     {
-                        // automatically revoke refresh token at signout time
-                        await e.HttpContext.RevokeRefreshTokenAsync();
+                        await e.HttpContext.RevokeUserRefreshTokenAsync();
                     };
                 })
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.Authority = "https://demo.identityserver.io";
+                    options.RequireHttpsMetadata = false;
 
-                    options.ClientId = "server.code.short";
+                    options.ClientId = "interactive.confidential.short";
                     options.ClientSecret = "secret";
 
                     // code flow + PKCE (PKCE is turned on by default)
@@ -51,8 +46,11 @@ namespace MvcCode
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
                     options.Scope.Add("email");
-                    options.Scope.Add("api");
                     options.Scope.Add("offline_access");
+                    options.Scope.Add("api");
+
+                    // not mapped by default
+                    options.ClaimActions.MapJsonKey("website", "website");
 
                     // keeps id_token smaller
                     options.GetClaimsFromUserInfoEndpoint = true;
@@ -65,18 +63,24 @@ namespace MvcCode
                     };
                 });
 
-            // this adds all the plumbing to do background refreshing of access tokens
+            // adds user and client access token management
             services.AddAccessTokenManagement()
                 .ConfigureBackchannelHttpClient()
-                .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
-                {
-                    TimeSpan.FromSeconds(1),
-                    TimeSpan.FromSeconds(2),
-                    TimeSpan.FromSeconds(3)
-                }));
+                    .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
+                    {
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(2),
+                        TimeSpan.FromSeconds(3)
+                    }));
 
-            // this adds a named client to the factory that uses the automatic token management
-            services.AddAccessTokenClient("client", client =>
+            // registers HTTP client that uses the managed user access token
+            services.AddUserAccessTokenClient("user_client", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44311");
+            });
+
+            // registers HTTP client that uses the managed client access token
+            services.AddClientAccessTokenClient("client", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44311");
             });

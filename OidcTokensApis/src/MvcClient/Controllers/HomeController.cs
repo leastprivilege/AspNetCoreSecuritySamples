@@ -22,14 +22,25 @@ namespace MvcCode.Controllers
 
         public IActionResult Logout() => SignOut("cookie", "oidc");
 
-        public async Task<IActionResult> CallApi()
+        public async Task<IActionResult> CallApiAsUser()
+        {
+            var client = _httpClientFactory.CreateClient("user_client");
+
+            var response = await client.GetStringAsync("test");
+            ViewBag.Json = JArray.Parse(response).ToString();
+
+            return View("CallApi");
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> CallApiAsClient()
         {
             var client = _httpClientFactory.CreateClient("client");
 
             var response = await client.GetStringAsync("test");
             ViewBag.Json = JArray.Parse(response).ToString();
 
-            return View();
+            return View("CallApi");
         }
     }
 }

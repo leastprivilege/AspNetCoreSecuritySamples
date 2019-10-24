@@ -8,8 +8,7 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             // add MVC (without views)
-            services.AddControllers()
-                .AddNewtonsoftJson();
+            services.AddControllers();
 
             services.AddAuthentication("token")
                 .AddJwtBearer("token", options =>
