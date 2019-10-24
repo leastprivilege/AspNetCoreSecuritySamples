@@ -18,7 +18,7 @@ namespace ClientCredentialsFlow
             var tokenResponse = await tokenClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                ClientId = "client",
+                ClientId = "m2m",
                 ClientSecret = "secret"
             });
 

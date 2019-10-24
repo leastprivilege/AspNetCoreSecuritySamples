@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using ProxyKit;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Host
@@ -24,6 +25,7 @@ namespace Host
             services.AddAccessTokenManagement();
 
             services.AddControllers();
+            services.AddDistributedMemoryCache();
 
             services.AddAuthentication(options =>
             {
@@ -38,7 +40,7 @@ namespace Host
             .AddOpenIdConnect("oidc", options =>
             {
                 options.Authority = "https://demo.identityserver.io";
-                options.ClientId = "server.code";
+                options.ClientId = "interactive.confidential";
                 options.ClientSecret = "secret";
 
                 options.ResponseType = "code";
@@ -83,10 +85,18 @@ namespace Host
                 {
                     var forwardContext = context.ForwardTo("http://localhost:5001");
 
-                    var token = await context.GetAccessTokenAsync();
-                    forwardContext.UpstreamRequest.SetBearerToken(token);
+                    try
+                    {
+                        var token = await context.GetUserAccessTokenAsync();
+                        forwardContext.UpstreamRequest.SetBearerToken(token);
 
-                    return await forwardContext.Send();
+                        return await forwardContext.Send();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                    
                 });
             });
 
