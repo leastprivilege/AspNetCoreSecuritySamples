@@ -10,6 +10,7 @@ namespace BlazorServer
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
+                await HttpContext.SignOutAsync("cookie");
                 await HttpContext.SignOutAsync("oidc");
             }
             else
