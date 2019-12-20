@@ -28,6 +28,7 @@ namespace BlazorServer
 
                     options.ResponseType = "code";
                     options.GetClaimsFromUserInfoEndpoint = true;
+                    options.SaveTokens = true;
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -36,14 +37,7 @@ namespace BlazorServer
                 });
 
 
-            services.AddControllersWithViews(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });
-
+            services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddServerSideBlazor();
         }

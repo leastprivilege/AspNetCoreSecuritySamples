@@ -1,0 +1,22 @@
+﻿@page "/secure"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+
+<h1>Claims</h1>
+
+<dl>
+    @foreach (var claim in GetUser().Result.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+</dl>
+
+
+@code {
+        private async Task<System.Security.Claims.ClaimsPrincipal> GetUser()
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            return authState.User;
+        }
+}
