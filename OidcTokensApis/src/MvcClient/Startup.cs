@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Polly;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MvcCode
 {
@@ -55,6 +56,8 @@ namespace MvcCode
                     // keeps id_token smaller
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
+                    
+                    options.ClaimActions.DeleteClaim("s_hash");
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -63,26 +66,37 @@ namespace MvcCode
                     };
                 });
 
+            // adds global authorization policy to require authenticated users
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = options.DefaultPolicy;
+            });
+
             // adds user and client access token management
-            services.AddAccessTokenManagement()
+            services.AddAccessTokenManagement(options =>
+                {
+                    // client config is inferred from OpenID Connect settings
+                    // if you want to specify scopes explicitly, do it here, otherwise the scope parameter will not be sent
+                    options.Client.Scope = "api";
+                })
                 .ConfigureBackchannelHttpClient()
-                    .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
-                    {
-                        TimeSpan.FromSeconds(1),
-                        TimeSpan.FromSeconds(2),
-                        TimeSpan.FromSeconds(3)
-                    }));
+                .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
+                {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromSeconds(3)
+                }));
 
             // registers HTTP client that uses the managed user access token
             services.AddUserAccessTokenClient("user_client", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:44311");
+                client.BaseAddress = new Uri(" https://localhost:44311/");
             });
 
             // registers HTTP client that uses the managed client access token
-            services.AddClientAccessTokenClient("client", client =>
+            services.AddClientAccessTokenClient("client", configureClient: client =>
             {
-                client.BaseAddress = new Uri("https://localhost:44311");
+                client.BaseAddress = new Uri(" https://localhost:44311/");
             });
         }
 
@@ -99,8 +113,7 @@ namespace MvcCode
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute()
-                    .RequireAuthorization();
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
