@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace IdentityModel.AspNetCore
 {
+    // Fixes for Safari
+    // https://brockallen.com/2019/01/11/same-site-cookies-asp-net-core-and-external-authentication-providers/
     public class StrictSameSiteExternalAuthenticationMiddleware
     {
         private readonly RequestDelegate _next;
