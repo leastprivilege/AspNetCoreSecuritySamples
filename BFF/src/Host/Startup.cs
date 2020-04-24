@@ -85,18 +85,10 @@ namespace Host
                 {
                     var forwardContext = context.ForwardTo("http://localhost:5001");
 
-                    try
-                    {
-                        var token = await context.GetUserAccessTokenAsync();
-                        forwardContext.UpstreamRequest.SetBearerToken(token);
+                    var token = await context.GetUserAccessTokenAsync();
+                    forwardContext.UpstreamRequest.SetBearerToken(token);
 
-                        return await forwardContext.Send();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw;
-                    }
-                    
+                    return await forwardContext.Send();
                 });
             });
 
