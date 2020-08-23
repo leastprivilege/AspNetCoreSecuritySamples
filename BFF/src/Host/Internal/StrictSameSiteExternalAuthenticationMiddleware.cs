@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace IdentityModel.AspNetCore
@@ -41,6 +42,8 @@ namespace IdentityModel.AspNetCore
                     if (location != null)
                     {
                         ctx.Response.StatusCode = 200;
+                        ctx.Response.ContentType = MediaTypeNames.Text.Html;
+
                         var html = $@"
                         <html><head>
                             <meta http-equiv='refresh' content='0;url={location}' />
