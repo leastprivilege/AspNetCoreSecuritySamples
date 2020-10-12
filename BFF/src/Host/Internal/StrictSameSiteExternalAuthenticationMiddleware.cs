@@ -35,7 +35,7 @@ namespace IdentityModel.AspNetCore
                     }
                     else if (ctx.Request.Method == "GET" && !ctx.Request.Query["skip"].Any())
                     {
-                        location = ctx.Request.Path + ctx.Request.QueryString + "&skip=1";
+                        location = ctx.Request.Path + ctx.Request.QueryString.Add("skip", "1");
                     }
 
                     if (location != null)
